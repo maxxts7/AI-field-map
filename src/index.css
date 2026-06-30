@@ -423,6 +423,17 @@ a.paper__title:hover { color: var(--accent); text-decoration: underline; }
 
 .block { margin-top: 22px; }
 .block__h { margin: 0 0 12px; font-size: 13px; font-weight: 660; color: var(--ink); }
+.block__h--toggle {
+  display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;
+}
+.block__h--toggle:hover { color: var(--accent); }
+.block__chev {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; border: 1px solid var(--line); border-radius: 4px;
+  background: var(--line-soft); color: var(--accent);
+  font-size: 13px; font-weight: 700; line-height: 1;
+}
+.block__h--toggle:hover .block__chev { border-color: var(--accent); }
 .block__sub { font-weight: 400; color: var(--ink-faint); }
 .block__empty { font-size: 13px; color: var(--ink-faint); margin: 0; }
 .block__empty code {

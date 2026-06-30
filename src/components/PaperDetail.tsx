@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { loadDescription } from "../data";
 import type {
   Lineage,
@@ -37,6 +37,41 @@ function DescBlock({ d }: { d: PaperDescription }) {
         <p className="desc__text">{d.enables}</p>
       </div>
     </div>
+  );
+}
+
+/** An overlay section with a clickable header that collapses its body. */
+function CollapsibleBlock({
+  title,
+  sub,
+  defaultOpen = true,
+  children,
+}: {
+  title: string;
+  sub?: string;
+  defaultOpen?: boolean;
+  children: ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <section className="block">
+      <h3
+        className="block__h block__h--toggle"
+        role="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="block__chev" aria-hidden="true">{open ? "−" : "+"}</span>
+        {title}
+        {sub && (
+          <>
+            {" "}
+            <span className="block__sub">{sub}</span>
+          </>
+        )}
+      </h3>
+      {open && children}
+    </section>
   );
 }
 
@@ -171,19 +206,16 @@ export function PaperDetail({
         </header>
 
         {desc && (
-          <section className="block">
-            <h3 className="block__h">
-              About this work{" "}
-              <span className="block__sub">— what it does, builds on, and enables</span>
-            </h3>
+          <CollapsibleBlock
+            title="About this work"
+            sub="— what it does, builds on, and enables"
+            defaultOpen={false}
+          >
             <DescBlock d={desc} />
-          </section>
+          </CollapsibleBlock>
         )}
 
-        <section className="block">
-          <h3 className="block__h">
-            Lineage <span className="block__sub">— the work that enabled this, oldest first</span>
-          </h3>
+        <CollapsibleBlock title="Lineage" sub="— the work that enabled this, oldest first">
           {!hasLineage ? (
             <p className="block__empty">
               Lineage hasn't been generated yet. Run <code>python -m pipeline.lineage_future</code>.
@@ -215,12 +247,9 @@ export function PaperDetail({
               </li>
             </ol>
           )}
-        </section>
+        </CollapsibleBlock>
 
-        <section className="block">
-          <h3 className="block__h">
-            Future direction <span className="block__sub">— where this line of work points</span>
-          </h3>
+        <CollapsibleBlock title="Future direction" sub="— where this line of work points">
           {!fut ? (
             <p className="block__empty">No future direction assigned.</p>
           ) : (
@@ -247,7 +276,7 @@ export function PaperDetail({
               )}
             </div>
           )}
-        </section>
+        </CollapsibleBlock>
       </div>
     </div>
   );
