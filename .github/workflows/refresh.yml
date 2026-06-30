@@ -1,0 +1,52 @@
+# Optional unattended refresh (spec §16). Runs Tier A on a cron, commits the
+# regenerated aggregates, and lets Netlify auto-deploy. Enable by adding repo
+# secrets (ANTHROPIC_API_KEY optional) and un-disabling the schedule.
+#
+# Add this ONLY when you want hands-off updates; running locally is the
+# recommended default to start.
+name: refresh-corpus
+
+on:
+  workflow_dispatch: {}
+  # schedule:
+  #   - cron: "0 6 * * 1"   # Mondays 06:00 UTC
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-corpus
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install pipeline deps
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Run pipeline (incremental)
+        env:
+          OPENALEX_EMAIL: ${{ vars.OPENALEX_EMAIL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m pipeline.run --phase 2 --incremental
+
+      - name: Commit refreshed artifacts
+        run: |
+          git config user.name  "corpus-bot"
+          git config user.email "corpus-bot@users.noreply.github.com"
+          git add public/data
+          if git diff --cached --quiet; then
+            echo "No artifact changes."
+          else
+            git commit -m "chore: refresh thematic-evolution artifacts ($(date -u +%F))"
+            git push
+          fi

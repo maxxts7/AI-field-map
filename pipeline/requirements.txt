@@ -1,0 +1,28 @@
+# Tier A — offline compute. Pin for reproducibility (spec §16).
+# NONE of this runs on Netlify; the SPA needs no Python.
+# The synthetic generator (run.py --synthetic) needs ZERO of these.
+
+# --- ingestion (spec §5) ---
+pyalex>=0.18              # OpenAlex client (Layer 1)
+requests>=2.32           # forum GraphQL + lab scraping
+beautifulsoup4>=4.12     # Layer 2 listing parse
+feedparser>=6.0          # Layer 2 RSS/Atom (preferred over crawling)
+
+# --- working store (spec §13) ---
+duckdb>=1.0
+polars>=1.0              # (or pandas) group-by/aggregate
+
+# --- embedding + topic modelling (spec §9, §11) ---
+sentence-transformers>=3.0
+torch>=2.2               # CPU wheel is fine; GPU/MPS optional
+bertopic>=0.16
+umap-learn>=0.5
+hdbscan>=0.8
+scikit-learn>=1.4
+numpy>=1.26
+
+# --- classifier (spec §7); optional, only if ANTHROPIC_API_KEY is set ---
+anthropic>=0.39
+
+# Optional offline validation oracle (spec §11, §18) is R/bibliometrix — NOT a
+# Python dependency and never in the critical path.
