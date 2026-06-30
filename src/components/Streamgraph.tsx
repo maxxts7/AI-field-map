@@ -10,9 +10,12 @@ type ChartLike = {
   convertFromPixel: (finder: object, value: number[]) => number[];
 };
 
+// A curated "night chart" palette: amber signal first, then a current of
+// teal, violet, rose and gold — saturated enough to glow against the dark
+// instrument-panel background so the stack reads as one designed map.
 const PALETTE = [
-  "#2f7fd0", "#e08a22", "#3f9e6a", "#cf4f6e", "#7c5fd6", "#1fa6a6",
-  "#caa033", "#5a86c4", "#a45fc0", "#4faf8a", "#dd7549", "#7c8694",
+  "#ff9d4d", "#54e0cf", "#8b93ff", "#ff6f91", "#8ce06a", "#5ba8ff",
+  "#f2c14e", "#c98bf0", "#4dd9e8", "#ff8a65", "#b9e34d", "#9aa3c9",
 ];
 const MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -143,8 +146,8 @@ export function Streamgraph({
       stack: "total",
       smooth: 0.45,
       showSymbol: false,
-      lineStyle: { width: 1, color: b.color },
-      areaStyle: { color: b.color, opacity: 0.88 },
+      lineStyle: { width: 1.25, color: b.color, shadowColor: b.color, shadowBlur: 7 },
+      areaStyle: { color: b.color, opacity: 0.82 },
       emphasis: { focus: "series" as const },
       z: 2,
       data: b.vals,
@@ -159,19 +162,19 @@ export function Streamgraph({
         type: "category",
         boundaryGap: false,
         data: months,
-        axisLine: { lineStyle: { color: "#e6e9ee" } },
+        axisLine: { lineStyle: { color: "rgba(255,255,255,0.14)" } },
         axisTick: { show: false },
         axisLabel: {
-          color: "#8a95a3", fontSize: 11, hideOverlap: true,
+          color: "#7c84a8", fontSize: 11, hideOverlap: true,
           formatter: (val: string, i: number) => fmtMonth(val, i),
         },
       },
       yAxis: {
         type: "value",
         max: mode === "share" ? 100 : undefined,
-        splitLine: { lineStyle: { color: "#eef1f5" } },
+        splitLine: { lineStyle: { color: "rgba(255,255,255,0.07)" } },
         axisLabel: {
-          color: "#8a95a3", fontSize: 11,
+          color: "#7c84a8", fontSize: 11,
           formatter: (v: number) => (mode === "share" ? `${v}%` : `${v}`),
         },
       },

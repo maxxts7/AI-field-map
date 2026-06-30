@@ -107,7 +107,7 @@ export default function App() {
         </main>
       ) : (
         <main className="main main--trends">
-          <Trends key={lens} root={root} lens={lens} tags={data.tags} papers={data.papers} accent="#2f6fae" />
+          <Trends key={lens} root={root} lens={lens} tags={data.tags} papers={data.papers} accent="#ff9d4d" />
         </main>
       )}
 
