@@ -11,8 +11,8 @@ type ChartLike = {
 };
 
 const PALETTE = [
-  "#3b82c4", "#d98b2b", "#5a9e6f", "#b5546b", "#7c6bd0", "#3aa6a6",
-  "#c0903a", "#6b8fb5", "#9a6fb0", "#6fae8c", "#cf7a5b", "#8a8f98",
+  "#2f7fd0", "#e08a22", "#3f9e6a", "#cf4f6e", "#7c5fd6", "#1fa6a6",
+  "#caa033", "#5a86c4", "#a45fc0", "#4faf8a", "#dd7549", "#7c8694",
 ];
 const MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -144,7 +144,7 @@ export function Streamgraph({
       smooth: 0.45,
       showSymbol: false,
       lineStyle: { width: 1, color: b.color },
-      areaStyle: { color: b.color, opacity: 0.82 },
+      areaStyle: { color: b.color, opacity: 0.88 },
       emphasis: { focus: "series" as const },
       z: 2,
       data: b.vals,
@@ -152,13 +152,8 @@ export function Streamgraph({
 
     const opt: EChartsOption = {
       color: PALETTE,
-      grid: { top: 64, bottom: 30, left: 46, right: 14 },
-      legend: {
-        type: "scroll",
-        top: 6, left: 0, right: 0,
-        itemWidth: 12, itemHeight: 12, itemGap: 14,
-        textStyle: { color: "#566", fontSize: 12 },
-      },
+      grid: { top: 14, bottom: 30, left: 46, right: 14 },
+      legend: { show: false }, // replaced by the custom HTML legend below the card head
       tooltip: { show: false }, // replaced by a custom hover tooltip (see below)
       xAxis: {
         type: "category",
@@ -268,6 +263,21 @@ export function Streamgraph({
       </div>
       <div className="stream__body">
         <div className="stream__plot">
+          {bands.length > 0 && (
+            <div className="stream__legend">
+              {bands.map((b) => (
+                <button
+                  key={b.id}
+                  className="lgnd"
+                  onClick={() => setScopeId(b.id)}
+                  title={`Drill into ${b.label}`}
+                >
+                  <span className="lgnd__sw" style={{ background: b.color }} />
+                  {b.label}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="streamchart" ref={ref} />
           <div className="stream__tip" ref={tipRef} />
         </div>

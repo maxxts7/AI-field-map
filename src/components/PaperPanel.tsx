@@ -56,6 +56,16 @@ export function PaperPanel({
   if (!nodeId) {
     return (
       <aside className="panel panel--empty">
+        <svg className="panel__glyph" viewBox="0 0 64 40" aria-hidden="true">
+          <line x1="10" y1="20" x2="30" y2="10" />
+          <line x1="10" y1="20" x2="30" y2="30" />
+          <line x1="30" y1="10" x2="52" y2="20" />
+          <line x1="30" y1="30" x2="52" y2="20" />
+          <circle cx="10" cy="20" r="3.5" />
+          <circle cx="30" cy="10" r="3.5" />
+          <circle cx="30" cy="30" r="3.5" />
+          <circle className="panel__glyph-on" cx="52" cy="20" r="4.5" />
+        </svg>
         <p>{emptyHint}</p>
       </aside>
     );

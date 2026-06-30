@@ -58,9 +58,12 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <div className="topbar__title">
-          <h1>AI Safety · Tag Explorer</h1>
-          <p className="topbar__sub">
-            {n_papers.toLocaleString()} papers · {FACET_ORDER.length} lenses · formal arXiv since {since} + lab reports
+          <div className="topbar__kicker">Interactive field map</div>
+          <h1>AI Safety · Research Explorer</h1>
+          <p className="lede">
+            A living map of the field — <b>{n_papers.toLocaleString()}</b> recent papers,
+            read and sorted by Claude across <b>{FACET_ORDER.length}</b> lenses, each traced
+            back to the work it builds on.
           </p>
         </div>
         <nav className="tabs">
@@ -78,7 +81,7 @@ export default function App() {
 
       <div className="lensbar">
         <span className="lensbar__blurb">
-          <b>{FACET_LABEL[lens]}</b> — {FACET_BLURB[lens]} · {leaves} leaf tags (≤{data.facets.cap}/leaf)
+          <b>{FACET_LABEL[lens]}</b> — {FACET_BLURB[lens]} · {leaves} sub-topics
         </span>
         <div className="lensbar__right">
           <div className="seg">
@@ -109,8 +112,9 @@ export default function App() {
       )}
 
       <footer className="foot">
-        Hierarchical tags assigned by Claude (Haiku 4.5, Batch API) · one path per lens ·
-        click a band or tag to drill in, then a paper for its lineage &amp; future direction
+        Formal arXiv papers since {since.slice(0, 4)}, alongside lab reports · tags and lineage
+        assigned by Claude (Haiku 4.5) · select a band, then a paper, to follow its lineage and
+        where the work points next
       </footer>
     </div>
     {openPaper && (
