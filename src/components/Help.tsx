@@ -83,7 +83,7 @@ export function Help({ onClose }: { onClose: () => void }) {
             imgAlt="A paper detail sheet showing its description, lineage timeline, and future direction"
           >
             Click any paper to see what it does, the canonical work it traces back to, and where
-            that line of research points next — all assigned automatically by Claude.
+            that line of research points next — all assigned automatically.
           </Step>
         </div>
       </div>

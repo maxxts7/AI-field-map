@@ -66,7 +66,7 @@ export default function App() {
           <h1>AI Safety · Research Explorer</h1>
           <p className="lede">
             A living map of the field — <b>{n_papers.toLocaleString()}</b> recent papers,
-            read and sorted by Claude across <b>{FACET_ORDER.length}</b> lenses, each traced
+            read and sorted across <b>{FACET_ORDER.length}</b> lenses, each traced
             back to the work it builds on.
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function App() {
 
       <footer className="foot">
         Formal arXiv papers since {since.slice(0, 4)}, alongside lab reports · tags and lineage
-        assigned by Claude (Haiku 4.5) · select a band, then a paper, to follow its lineage and
+        assigned automatically · select a band, then a paper, to follow its lineage and
         where the work points next
       </footer>
     </div>
