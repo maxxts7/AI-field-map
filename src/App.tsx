@@ -10,6 +10,8 @@ import {
 import { PaperDetail } from "./components/PaperDetail";
 import { Trends } from "./components/Trends";
 import { Streamgraph } from "./components/Streamgraph";
+import { Help } from "./components/Help";
+import { ComingSoon } from "./components/ComingSoon";
 import { OpenPaperContext } from "./paperDetail";
 
 function countLeaves(n: TaxNode): number {
@@ -23,6 +25,8 @@ export default function App() {
   const [lens, setLens] = useState<FacetKey>("methodology");
   const [mode, setMode] = useState<"evolution" | "trends">("evolution");
   const [openPaper, setOpenPaper] = useState<string | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   useEffect(() => {
     loadTaxonomy().then(setData).catch((e) => setError(String(e)));
@@ -66,17 +70,30 @@ export default function App() {
             back to the work it builds on.
           </p>
         </div>
-        <nav className="tabs">
-          {FACET_ORDER.map((f) => (
-            <button
-              key={f}
-              className={f === lens ? "tab tab--on" : "tab"}
-              onClick={() => setLens(f)}
-            >
-              {FACET_LABEL[f]}
+        <div className="topbar__actions">
+          <nav className="tabs">
+            {FACET_ORDER.map((f) => (
+              <button
+                key={f}
+                className={f === lens ? "tab tab--on" : "tab"}
+                onClick={() => setLens(f)}
+              >
+                {FACET_LABEL[f]}
+              </button>
+            ))}
+            <button className="tab tab--ghost" onClick={() => setShowComingSoon(true)}>
+              ＋ Your map
             </button>
-          ))}
-        </nav>
+          </nav>
+          <button
+            className="help-btn"
+            onClick={() => setShowHelp(true)}
+            aria-label="How to use this explorer"
+            title="How to use this explorer"
+          >
+            ?
+          </button>
+        </div>
       </header>
 
       <div className="lensbar">
@@ -127,6 +144,8 @@ export default function App() {
         onClose={() => setOpenPaper(null)}
       />
     )}
+    {showHelp && <Help onClose={() => setShowHelp(false)} />}
+    {showComingSoon && <ComingSoon onClose={() => setShowComingSoon(false)} />}
     </OpenPaperContext.Provider>
   );
 }
